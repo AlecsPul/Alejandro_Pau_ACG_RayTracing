@@ -216,11 +216,11 @@ int main()
 
     // Declare the shader
     Vector3D bgColor(0.0, 0.0, 0.0); // Background color (for rays which do not intersect anything)
-    Vector3D intersectionColor(1,0,0);
+    Vector3D intersectionColor(0,0,0);
     
     //First Assignment
-    Shader *shader = new IntersectionShader (intersectionColor, bgColor);
-    //Shader *depthshader = new DepthShader (intersectionColor,7.5f, bgColor);
+    //Shader *shader = new IntersectionShader (intersectionColor, bgColor); TASK 4.2 shader
+    Shader *depthshader = new DepthShader (intersectionColor,7.5f, bgColor);
     //(... normal, whitted) ...
 
   
@@ -237,11 +237,12 @@ int main()
     //---------------------------------------------------------------------------
 
     //Paint Image ONLY TASK 1
-    PaintImage(film);
+    //PaintImage(film);
 
     // Launch some rays! TASK 2,3,...   
     auto start = high_resolution_clock::now();
-    //raytrace(cam, shader, film, myScene.objectsList, myScene.LightSourceList);
+    //raytrace(cam, shader, film, myScene.objectsList, myScene.LightSourceList); TASK 4.2
+    raytrace(cam, depthshader, film, myScene.objectsList, myScene.LightSourceList); //TASK 4.3
     auto stop = high_resolution_clock::now();
 
     
