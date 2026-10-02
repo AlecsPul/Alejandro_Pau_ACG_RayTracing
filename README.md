@@ -3,10 +3,7 @@
 
 ## Build Guide:
  
-Clone and initialize the repository (you can do it via [Git](https://git-scm.com/downloads/win) or using [GitHub Desktop](https://desktop.github.com/download/)):
-```
-git clone --recurse-submodules -j8 https://github.com/upf-gti/ACG_RayTracing.git
-```
+Clone and initialize the repository 
 
 The framework provided is compatible with all operating systems.
 The steps for each platform are mandatory to be able to build the framework.
