@@ -197,8 +197,10 @@ void PaintImage(Film* film)
 
         for (size_t col = 0; col < resX; col++)
         { 
-           Vector3D color = Vector3D((double)col / resX, (double)lin / resY, 0);
-           film->setPixelValue(col, lin, color);
+            //CHANGE...()
+            Vector3D random_color = Vector3D((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX);            
+            film->setPixelValue(col,lin, random_color);
+           
         }
     }
 }
