@@ -20,6 +20,7 @@ Vector3D DepthShader::computeColor(const Ray &r, const std::vector<Shape*> &objL
         float distance = (r.o - intersection_pos).length();
 
         return Vector3D(0, 1 - distance / 10, 0);
+		//return Vector3D(0, distance / 10, 0);   Brightness increases with distance
     }
 
     return color;
