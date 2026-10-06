@@ -13,12 +13,18 @@ WhittedShader::WhittedShader(Vector3D hitColor_, Vector3D bgColor_) :
 
 Vector3D WhittedShader::computeColor(const Ray& r, const std::vector<Shape*>& objList, const std::vector<LightSource*>& lsList) const
 {
- 
-    for (int i = 0;i < objList.size();++i) {
-        for (int j = 0;j < lsList.size();++j) {
-            lsList[j]
-        }
-    }
+    Vector3D L;
+    Intersection its;
+	Vector3D wi;
+	double distance;
+       if (Utils::hasIntersection(r, objList)) {
+           for (int j = 0;j < lsList.size();++j) {
+               wi = lsList[j]->sampleLightPosition() - its.itsPoint;
+               distance = sqrt(wi.x * wi.x + wi.y * wi.y + wi.z * wi.z);
+               L = (lsList[j]->getIntensity() / (distance * distance)) * (wi); //
+           }
+       }
+    
 
     return bgColor;
 }
