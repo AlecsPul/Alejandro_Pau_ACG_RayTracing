@@ -13,8 +13,10 @@ Vector3D Phong::getReflectance(const Vector3D& n, const Vector3D& wo,
     const Vector3D& wi) const {
 
     //FILL(...)
-
-    return Vector3D(0.0);
+    
+    Vector3D wr = 2 * (n * wi) * n - wi; //Compute Ideal reflection direction
+    Vector3D reflectance = (rho_d / 3.14) + Ks * powf(dot(wo,wr), alpha); //Reflectance of a phong material
+    return reflectance;
 
 };
 
