@@ -296,6 +296,7 @@ set(OLD_GLOB
   "C:/Users/apool/Documents/GitHub/ACG_RayTracing/src/shaders/intersectionshader.cpp"
   "C:/Users/apool/Documents/GitHub/ACG_RayTracing/src/shaders/normalshader.cpp"
   "C:/Users/apool/Documents/GitHub/ACG_RayTracing/src/shaders/shader.cpp"
+  "C:/Users/apool/Documents/GitHub/ACG_RayTracing/src/shaders/whittedshader.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -325,6 +326,7 @@ set(OLD_GLOB
   "C:/Users/apool/Documents/GitHub/ACG_RayTracing/src/shaders/intersectionshader.h"
   "C:/Users/apool/Documents/GitHub/ACG_RayTracing/src/shaders/normalshader.h"
   "C:/Users/apool/Documents/GitHub/ACG_RayTracing/src/shaders/shader.h"
+  "C:/Users/apool/Documents/GitHub/ACG_RayTracing/src/shaders/whittedshader.h"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

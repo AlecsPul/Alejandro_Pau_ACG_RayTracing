@@ -291,6 +291,17 @@ build CMakeFiles\ACG.dir\src\shaders\shader.cpp.obj: CXX_COMPILER__ACG_unscanned
   TARGET_PDB = ACG.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\ACG.dir
 
+build CMakeFiles\ACG.dir\src\shaders\whittedshader.cpp.obj: CXX_COMPILER__ACG_unscanned_Debug C$:\Users\apool\Documents\GitHub\ACG_RayTracing\src\shaders\whittedshader.cpp || cmake_object_order_depends_target_ACG
+  CONFIG = Debug
+  DEFINES = -D_AMD64_
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++20
+  INCLUDES = -IC:\Users\apool\Documents\GitHub\ACG_RayTracing\src
+  OBJECT_DIR = CMakeFiles\ACG.dir
+  OBJECT_FILE_DIR = CMakeFiles\ACG.dir\src\shaders
+  TARGET_COMPILE_PDB = CMakeFiles\ACG.dir\
+  TARGET_PDB = ACG.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\ACG.dir
+
 build CMakeFiles\ACG.dir\src\shapes\infiniteplan.cpp.obj: CXX_COMPILER__ACG_unscanned_Debug C$:\Users\apool\Documents\GitHub\ACG_RayTracing\src\shapes\infiniteplan.cpp || cmake_object_order_depends_target_ACG
   CONFIG = Debug
   DEFINES = -D_AMD64_
@@ -343,7 +354,7 @@ build CMakeFiles\ACG.dir\src\shapes\square.cpp.obj: CXX_COMPILER__ACG_unscanned_
 #############################################
 # Link the executable ACG.exe
 
-build ACG.exe: CXX_EXECUTABLE_LINKER__ACG_Debug CMakeFiles\ACG.dir\src\main.cpp.obj CMakeFiles\ACG.dir\src\cameras\camera.cpp.obj CMakeFiles\ACG.dir\src\cameras\ortographic.cpp.obj CMakeFiles\ACG.dir\src\cameras\perspective.cpp.obj CMakeFiles\ACG.dir\src\core\bitmap.cpp.obj CMakeFiles\ACG.dir\src\core\eqsolver.cpp.obj CMakeFiles\ACG.dir\src\core\film.cpp.obj CMakeFiles\ACG.dir\src\core\hemisphericalsampler.cpp.obj CMakeFiles\ACG.dir\src\core\intersection.cpp.obj CMakeFiles\ACG.dir\src\core\matrix4x4.cpp.obj CMakeFiles\ACG.dir\src\core\ray.cpp.obj CMakeFiles\ACG.dir\src\core\scene.cpp.obj CMakeFiles\ACG.dir\src\core\utils.cpp.obj CMakeFiles\ACG.dir\src\core\vector3d.cpp.obj CMakeFiles\ACG.dir\src\lightsources\arealightsource.cpp.obj CMakeFiles\ACG.dir\src\materials\emissive.cpp.obj CMakeFiles\ACG.dir\src\materials\material.cpp.obj CMakeFiles\ACG.dir\src\materials\phong.cpp.obj CMakeFiles\ACG.dir\src\shaders\depthshader.cpp.obj CMakeFiles\ACG.dir\src\shaders\intersectionshader.cpp.obj CMakeFiles\ACG.dir\src\shaders\normalshader.cpp.obj CMakeFiles\ACG.dir\src\shaders\shader.cpp.obj CMakeFiles\ACG.dir\src\shapes\infiniteplan.cpp.obj CMakeFiles\ACG.dir\src\shapes\shape.cpp.obj CMakeFiles\ACG.dir\src\shapes\sphere.cpp.obj CMakeFiles\ACG.dir\src\shapes\square.cpp.obj
+build ACG.exe: CXX_EXECUTABLE_LINKER__ACG_Debug CMakeFiles\ACG.dir\src\main.cpp.obj CMakeFiles\ACG.dir\src\cameras\camera.cpp.obj CMakeFiles\ACG.dir\src\cameras\ortographic.cpp.obj CMakeFiles\ACG.dir\src\cameras\perspective.cpp.obj CMakeFiles\ACG.dir\src\core\bitmap.cpp.obj CMakeFiles\ACG.dir\src\core\eqsolver.cpp.obj CMakeFiles\ACG.dir\src\core\film.cpp.obj CMakeFiles\ACG.dir\src\core\hemisphericalsampler.cpp.obj CMakeFiles\ACG.dir\src\core\intersection.cpp.obj CMakeFiles\ACG.dir\src\core\matrix4x4.cpp.obj CMakeFiles\ACG.dir\src\core\ray.cpp.obj CMakeFiles\ACG.dir\src\core\scene.cpp.obj CMakeFiles\ACG.dir\src\core\utils.cpp.obj CMakeFiles\ACG.dir\src\core\vector3d.cpp.obj CMakeFiles\ACG.dir\src\lightsources\arealightsource.cpp.obj CMakeFiles\ACG.dir\src\materials\emissive.cpp.obj CMakeFiles\ACG.dir\src\materials\material.cpp.obj CMakeFiles\ACG.dir\src\materials\phong.cpp.obj CMakeFiles\ACG.dir\src\shaders\depthshader.cpp.obj CMakeFiles\ACG.dir\src\shaders\intersectionshader.cpp.obj CMakeFiles\ACG.dir\src\shaders\normalshader.cpp.obj CMakeFiles\ACG.dir\src\shaders\shader.cpp.obj CMakeFiles\ACG.dir\src\shaders\whittedshader.cpp.obj CMakeFiles\ACG.dir\src\shapes\infiniteplan.cpp.obj CMakeFiles\ACG.dir\src\shapes\shape.cpp.obj CMakeFiles\ACG.dir\src\shapes\sphere.cpp.obj CMakeFiles\ACG.dir\src\shapes\square.cpp.obj
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console

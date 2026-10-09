@@ -16,26 +16,33 @@ Vector3D WhittedShader::computeColor(const Ray& r, const std::vector<Shape*>& ob
 {
     Vector3D L;
     Intersection its;
+    Intersection its_light;
 	Vector3D wi;
 	double distance;
     Vector3D wo = -r.d;
     Vector3D result;
    
     if (Utils::getClosestIntersection(r, objList, its)) {
-            for (int j = 0;j < lsList.size();j++) {
-               
-                wi = lsList[j]->sampleLightPosition() - its.itsPoint;
-                Vector3D wi_normal = wi.normalized();
-                distance = sqrt(wi_normal.x * wi_normal.x + wi_normal.y * wi_normal.y + wi_normal.z * wi_normal.z);
-                L = lsList[j]->getIntensity(); //incident light intensity
-                Vector3D reflectance = its.shape->getMaterial().getReflectance(its.normal,wo.normalized(), wi_normal);
-                result += L*reflectance*dot(wi_normal, its.normal);
-                
+        for (int j = 0;j < lsList.size();j++) {
 
+            wi = lsList[j]->sampleLightPosition() - its.itsPoint;
+            Vector3D wi_normal = wi.normalized();
+            Ray ray = Ray();
+            ray.o = its.itsPoint;
+            ray.d = wi.normalized();
+            distance = wi.length();
+            ray.maxT = distance;
+
+            if (Utils::hasIntersection(ray, objList)) {
+                continue;
             }
-        
+            else {
+            
+                L = lsList[j]->getIntensity(); //incident light intensity
+                Vector3D reflectance = its.shape->getMaterial().getReflectance(its.normal, wo.normalized(), wi_normal);
+                result += L * reflectance * dot(wi_normal, its.normal);
+            }
+        }
     }
-    
-
-    return result;
+    return its.shape->getMaterial().getDiffuseReflectance()* (0.1, 0.1, 0.1) + result;
 }
