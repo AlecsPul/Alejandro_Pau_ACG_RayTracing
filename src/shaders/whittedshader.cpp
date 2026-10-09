@@ -29,7 +29,7 @@ Vector3D WhittedShader::computeColor(const Ray& r, const std::vector<Shape*>& ob
             Vector3D wi_normal = wi.normalized();
             Ray ray = Ray();
             ray.o = its.itsPoint;
-            ray.d = wi.normalized();
+            ray.d = wi_normal;
             distance = wi.length();
             ray.maxT = distance;
 
@@ -39,10 +39,10 @@ Vector3D WhittedShader::computeColor(const Ray& r, const std::vector<Shape*>& ob
             else {
             
                 L = lsList[j]->getIntensity(); //incident light intensity
-                Vector3D reflectance = its.shape->getMaterial().getReflectance(its.normal, wo.normalized(), wi_normal);
+                Vector3D reflectance = its.shape->getMaterial().getReflectance(its.normal, wo, wi);
                 result += L * reflectance * dot(wi_normal, its.normal);
             }
         }
     }
-    return its.shape->getMaterial().getDiffuseReflectance()* (0.1, 0.1, 0.1) + result;
+    return its.shape->getMaterial().getDiffuseReflectance() * (0.1, 0.1, 0.1) + result;
 }
