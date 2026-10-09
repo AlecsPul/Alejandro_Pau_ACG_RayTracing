@@ -18,7 +18,7 @@
 #include "shaders/intersectionshader.h"
 #include "shaders/depthshader.h"
 #include "shaders/normalshader.h"
-
+#include "shaders/whittedshader.h"
 
 #include "materials/phong.h"
 #include "materials/emissive.h"
@@ -222,7 +222,8 @@ int main()
     //First Assignment
     //Shader *shader = new IntersectionShader (intersectionColor, bgColor); //TASK 4.2 shader
     //Shader *depthshader = new DepthShader (intersectionColor,7.5f, bgColor); //TASK 4.3 shader
-    Shader* normalshader = new NormalShader(intersectionColor, bgColor); // TASK 4.4 shader
+    //Shader* normalshader = new NormalShader(intersectionColor, bgColor); // TASK 4.4 shader
+    Shader* whittedshader = new WhittedShader(intersectionColor, bgColor);
     //(... normal, whitted) ...
 
   
@@ -233,8 +234,8 @@ int main()
     Camera* cam;
     Scene myScene;
     //Create Scene Geometry and Illumiantion
-    buildSceneSphere(cam, film, myScene); //Task 2,3,4;
-    //buildSceneCornellBox(cam, film, myScene); //Task 5
+    //buildSceneSphere(cam, film, myScene); //Task 2,3,4;
+    buildSceneCornellBox(cam, film, myScene); //Task 5
 
     //---------------------------------------------------------------------------
 
@@ -245,7 +246,8 @@ int main()
     auto start = high_resolution_clock::now();
     //raytrace(cam, shader, film, myScene.objectsList, myScene.LightSourceList);// TASK 4.2
     //raytrace(cam, depthshader, film, myScene.objectsList, myScene.LightSourceList); //TASK 4.3
-    raytrace(cam, normalshader, film, myScene.objectsList, myScene.LightSourceList); //TASK 4.4
+    //raytrace(cam, normalshader, film, myScene.objectsList, myScene.LightSourceList); //TASK 4.4
+    raytrace(cam, whittedshader, film, myScene.objectsList, myScene.LightSourceList);
     auto stop = high_resolution_clock::now();
 
     

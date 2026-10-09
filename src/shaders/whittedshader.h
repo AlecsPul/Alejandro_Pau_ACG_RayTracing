@@ -3,6 +3,7 @@
 
 #include "shader.h"
 
+
 class WhittedShader : public Shader
 {
 public:
@@ -14,6 +15,7 @@ public:
         const std::vector<LightSource*>& lsList) const;
 
     Vector3D hitColor;
+    
 };
 
 #endif // WHITTEDSHADER_H
