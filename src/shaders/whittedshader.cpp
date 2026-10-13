@@ -21,20 +21,18 @@ Vector3D WhittedShader::computeColor(const Ray& r, const std::vector<Shape*>& ob
 	double distance;
     Vector3D wo = -r.d;
     
-    Vector3D color = (0.0, 0.0, 0.0);
+    Vector3D color(0.0, 0.0, 0.0);
     if (Utils::getClosestIntersection(r, objList, its)) {
             for (int j = 0;j < lsList.size();j++) {
                 wi = lsList[j]->sampleLightPosition() - its.itsPoint;
                 if (its.shape->getMaterial().hasSpecular()) {
                     //MIRROR
-
-                    Vector3D wr = 2 * dot(its.normal, wi) * its.normal - wi;
+                    Vector3D wr = 2 * dot(its.normal, wo) * its.normal - wo;
                     Ray reflectionRay = Ray(its.itsPoint, wr, r.depth + 1);
                     color = computeColor(reflectionRay, objList, lsList);
 
                 }
                 else if (its.shape->getMaterial().hasDiffuseOrGlossy()) {
-                   
                     Vector3D wi_normal = wi.normalized();
                     Ray ray = Ray();
                     ray.o = its.itsPoint;
@@ -46,7 +44,6 @@ Vector3D WhittedShader::computeColor(const Ray& r, const std::vector<Shape*>& ob
                         continue;
                     }
                     else {
-
                         L = lsList[j]->getIntensity(); //incident light intensity
                         Vector3D reflectance = its.shape->getMaterial().getReflectance(its.normal, wo, wi);
                         color += L * reflectance * dot(wi_normal, its.normal);
