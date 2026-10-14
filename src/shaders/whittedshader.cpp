@@ -33,14 +33,15 @@ Vector3D WhittedShader::computeColor(const Ray& r, const std::vector<Shape*>& ob
                 }
 				else if (its.shape->getMaterial().hasTransmission()) {
 					//TRANSMISSION
-					double n1 = 1.0; //air
-					double n2 = its.shape->getMaterial().getIndexOfRefraction();
+					//double n1 = 1.0; //air
+					//double n2 = its.shape->getMaterial().getIndexOfRefraction();
 					Vector3D normal = its.normal;
+                    double mu_t = its.shape->getMaterial().getIndexOfRefraction();
 					if (dot(wo, normal) < 0) {
-						std::swap(n1, n2);
+						mu_t = 1/mu_t;
 						normal = -normal;
 					}
-					double mu_t = n1 / n2;
+                    
                     double radicand = 1 - mu_t * mu_t * (1 - dot(normal, wo) * dot(normal, wo));
 					if (radicand >= 0) { // NO total internal reflection, compute the refracted ray
                         Vector3D wt = -mu_t*wo + normal*(mu_t*dot(normal, wo) - sqrt(radicand));
