@@ -65,7 +65,7 @@ Vector3D WhittedShader::computeColor(const Ray& r, const std::vector<Shape*>& ob
                     if (Utils::hasIntersection(ray, objList)) {
                         continue;
                     }
-                    else {
+                    else {//MONTECARLO AQUI
                         L = lsList[j]->getIntensity(); //incident light intensity
                         Vector3D reflectance = its.shape->getMaterial().getReflectance(its.normal, wo, wi);
                         color += L * reflectance * dot(wi_normal, its.normal);
