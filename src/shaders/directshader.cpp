@@ -73,7 +73,7 @@ Vector3D DirectShader::computeColor(const Ray& r, const std::vector<Shape*>& obj
                     HemisphericalSampler sampler;
 					
 					double pdf = 1.0 / (2 * 3.14159);
-					Ray sampleRay = Ray(its.itsPoint, wj, r.depth + 1);
+
                     for (int i = 0; i < N; i++) {
                         Vector3D wj = sampler.getSample(its.normal);
                         Vector3D reflectance = its.shape->getMaterial().getReflectance(its.normal, wo, wj);
