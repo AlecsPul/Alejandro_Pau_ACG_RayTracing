@@ -1,5 +1,6 @@
 #include "directshader.h"
 #include "../core/utils.h"
+#include "../core/hemisphericalsampler.h"
 #include "../materials/phong.h"
 
 DirectShader::DirectShader() :
@@ -66,10 +67,19 @@ Vector3D DirectShader::computeColor(const Ray& r, const std::vector<Shape*>& obj
                     continue;
                 }
                 else {
+                    int N = 256;
                     L = lsList[j]->getIntensity(); //incident light intensity
-                    Vector3D reflectance = its.shape->getMaterial().getReflectance(its.normal, wo, wi);
-                    color += L * reflectance * dot(wi_normal, its.normal);
-
+                    
+                    HemisphericalSampler sampler;
+					
+					double pdf = 1.0 / (2 * 3.14159);
+					Ray sampleRay = Ray(its.itsPoint, wj, r.depth + 1);
+                    for (int i = 0; i < N; i++) {
+                        Vector3D wj = sampler.getSample(its.normal);
+                        Vector3D reflectance = its.shape->getMaterial().getReflectance(its.normal, wo, wj);
+                        color += ( * reflectance * dot(wj, its.normal)) / pdf;
+                    }
+                    color = color / N;
                 }
             }
 
