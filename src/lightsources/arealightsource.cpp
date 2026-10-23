@@ -17,6 +17,7 @@ Vector3D AreaLightSource::sampleLightPosition()   const
     //FILL(...)
     // 
     //New Randam Pos inside Area Lightsource
+	
     return Vector3D(0.0);
 }
 
