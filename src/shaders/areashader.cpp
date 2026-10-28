@@ -78,7 +78,9 @@ Vector3D AreaShader::computeColor(const Ray& r, const std::vector<Shape*>& objLi
 				Ray shadowRay = Ray();
 				shadowRay.o = its.itsPoint;
 				shadowRay.d = wi_normalized;
-				shadowRay.maxT = mod_wi;
+				shadowRay.minT = Epsilon;
+				shadowRay.maxT = mod_wi-Epsilon;
+
 
 				int visibility;
                 
@@ -100,7 +102,7 @@ Vector3D AreaShader::computeColor(const Ray& r, const std::vector<Shape*>& objLi
 
 		
         
-        color += its.shape->getMaterial().getDiffuseReflectance() * (0.3, 0.3, 0.3);
+        color += its.shape->getMaterial().getDiffuseReflectance() * 0.2;
     }
     return color;
 }
