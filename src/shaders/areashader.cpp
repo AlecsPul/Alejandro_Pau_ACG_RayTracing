@@ -59,21 +59,23 @@ Vector3D AreaShader::computeColor(const Ray& r, const std::vector<Shape*>& objLi
         else if (its.shape->getMaterial().hasDiffuseOrGlossy()) {
             int N = 256;
             HemisphericalSampler sampler;
-					
-			double pdf = 1.0 / (2 * 3.14159); // change to 1/area
+			
+			 // change to 1/area
+            double pdf = 1.0 / lsList.front()->getArea(); //since we will only have one light, we can leave it like this
 
             for (int i = 0; i < N; i++) {
                 Vector3D wj = sampler.getSample(its.normal);
                 Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, wo, wj);
-                        
+                
 				Ray newRay = Ray(its.itsPoint, wj);                        
-                Intersection y;
-                Utils::getClosestIntersection(newRay, objList, y);
+                Vector3D y = lsList.front()->sampleLightPosition();
+                
+            
 
-				Vector3D wi = y.itsPoint - its.itsPoint;
+				Vector3D wi = y - its.itsPoint;
 				Vector3D wi_normalized = wi.normalized();
 				float mod_wi = wi.length();
-                float G = (max(0, dot(its.normal, wi_normalized)) * max(0, dot(y.normal, -wi_normalized))) / mod_wi;
+                float G = (fmax(0, dot(its.normal, wi_normalized)) * fmax(0, dot(lsList.front()->getNormal(), -wi_normalized))) / mod_wi;
 
 				Ray shadowRay = Ray();
 				shadowRay.o = its.itsPoint;
@@ -89,10 +91,10 @@ Vector3D AreaShader::computeColor(const Ray& r, const std::vector<Shape*>& objLi
                     visibility = 1;
                 }
                         
-                if (y.shape->getMaterial().isEmissive()) {
-                    Vector3D l_dir = y.shape->getMaterial().getEmissiveRadiance();
-                    color += (l_dir * brdf * G * visibility) / pdf;
-                }       
+                
+                Vector3D l_dir = lsList.front()->getIntensity();
+                color += (l_dir * brdf * G * visibility) / pdf;
+                    
             }
             color = color / N;
                 
