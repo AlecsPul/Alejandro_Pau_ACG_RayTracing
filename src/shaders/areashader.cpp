@@ -58,24 +58,22 @@ Vector3D AreaShader::computeColor(const Ray& r, const std::vector<Shape*>& objLi
 
         else if (its.shape->getMaterial().hasDiffuseOrGlossy()) {
             int N = 256;
-            HemisphericalSampler sampler;
+            
 			
 			 // change to 1/area
             double pdf = 1.0 / lsList.front()->getArea(); //since we will only have one light, we can leave it like this
 
             for (int i = 0; i < N; i++) {
-                Vector3D wj = sampler.getSample(its.normal);
-                Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, wo, wj);
                 
-				Ray newRay = Ray(its.itsPoint, wj);                        
                 Vector3D y = lsList.front()->sampleLightPosition();
-                
-            
+                Vector3D wi = y - its.itsPoint;
+                Vector3D wi_normalized = wi.normalized();
 
-				Vector3D wi = y - its.itsPoint;
-				Vector3D wi_normalized = wi.normalized();
+                Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, wo, wi_normalized);
+                
+				
 				float mod_wi = wi.length();
-                float G = (fmax(0, dot(its.normal, wi_normalized)) * fmax(0, dot(lsList.front()->getNormal(), -wi_normalized))) / mod_wi;
+                float G = (fmax(0, dot(its.normal, wi_normalized)) * fmax(0, dot(lsList.front()->getNormal(), -wi_normalized))) / (mod_wi*mod_wi);
 
 				Ray shadowRay = Ray();
 				shadowRay.o = its.itsPoint;
