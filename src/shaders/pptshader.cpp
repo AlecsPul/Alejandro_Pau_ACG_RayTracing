@@ -58,18 +58,25 @@ Vector3D PptShader::computeColor(const Ray& r, const std::vector<Shape*>& objLis
 
         else if (its.shape->getMaterial().hasDiffuseOrGlossy()) {
             int N = 256;
-
-
-            // change to 1/area
-            double pdf = 1.0 / lsList.front()->getArea(); //since we will only have one light, we can leave it like this
-
+			double pdf = 1.0 / (2 * 3.14159); //since we will only have one light, we can leave it like this
+            
             for (int i = 0; i < N; i++) {
 
-                Vector3D y = lsList.front()->sampleLightPosition();
-                Vector3D wi = y - its.itsPoint;
-                Vector3D wi_normalized = wi.normalized();
 
-                Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, wo, wi_normalized);
+                Vector3D y = lsList.front()->sampleLightPosition();
+				
+                HemisphericalSampler sampler = HemisphericalSampler();
+                Vector3D wi = sampler.getSample(its.normal);
+                Vector3D wi_normalized = wi.normalized();
+                Vector3D Lo = its.shape->getMaterial().getReflectance(its.normal, wo, wi);
+
+				int maxDepth = 4;
+                Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, -r.d, wi_normalized);
+                if (r.depth < maxDepth) {
+					Ray newRay = Ray(its.itsPoint, wi_normalized, r.depth + 1); //maybe not normalized?                    
+					Lo += computeColor(newRay, objList, lsList) * brdf * dot(its.normal, wi_normalized) / pdf;
+                }
+                
 
 
                 float mod_wi = wi.length();

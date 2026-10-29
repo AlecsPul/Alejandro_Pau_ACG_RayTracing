@@ -4,7 +4,7 @@
 #include "shader.h"
 
 
-class Pptshader : public Shader
+class PptShader : public Shader
 {
 public:
     PptShader();
