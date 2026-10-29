@@ -15,6 +15,10 @@ PptShader::PptShader(Vector3D hitColor_, Vector3D bgColor_) :
 
 Vector3D PptShader::computeColor(const Ray& r, const std::vector<Shape*>& objList, const std::vector<LightSource*>& lsList) const
 {
+    int maxDepth = 4;
+    if (r.depth >= maxDepth) {
+        return bgColor;
+    }
     Vector3D L;
     Intersection its;
     Intersection its_light;
@@ -57,61 +61,18 @@ Vector3D PptShader::computeColor(const Ray& r, const std::vector<Shape*>& objLis
         }
 
         else if (its.shape->getMaterial().hasDiffuseOrGlossy()) {
-            int N = 256;
-            double pdf = 1.0 / (2 * 3.14159); //since we will only have one light, we can leave it like this
+            double pdf = 1.0 / (2 * 3.14159); //since we will only have one light, we can leave it like this  
 
-            for (int i = 0; i < N; i++) {
+            HemisphericalSampler sampler = HemisphericalSampler();
+            Vector3D wi = sampler.getSample(its.normal);
+            Vector3D wi_normalized = wi.normalized();
 
-
-                Vector3D y = lsList.front()->sampleLightPosition();
-
-                HemisphericalSampler sampler = HemisphericalSampler();
-                Vector3D wi = sampler.getSample(its.normal);
-                Vector3D wi_normalized = wi.normalized();
-                Vector3D Lo = its.shape->getMaterial().getReflectance(its.normal, wo, wi);
-
-                int maxDepth = 4;
-                Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, -r.d, wi_normalized);
-                if (r.depth < maxDepth) {
-                    Ray newRay = Ray(its.itsPoint, wi_normalized, r.depth + 1); //maybe not normalized?                    
-                    Lo += computeColor(newRay, objList, lsList) * brdf * dot(its.normal, wi_normalized) / pdf;
-                }
-                return Lo;
-
+            Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, -r.d, wi_normalized);
+            if (r.depth < maxDepth) {
+                Ray newRay = Ray(its.itsPoint, wi_normalized, r.depth + 1); //maybe not normalized?                    
+                color += computeColor(newRay, objList, lsList) * brdf * dot(its.normal, wi_normalized) / pdf;
             }
-
-
-            //        float mod_wi = wi.length();
-            //        float G = (fmax(0, dot(its.normal, wi_normalized)) * fmax(0, dot(lsList.front()->getNormal(), -wi_normalized))) / (mod_wi * mod_wi);
-
-            //        Ray shadowRay = Ray();
-            //        shadowRay.o = its.itsPoint;
-            //        shadowRay.d = wi_normalized;
-            //        shadowRay.minT = Epsilon;
-            //        shadowRay.maxT = mod_wi - Epsilon;
-
-
-            //        int visibility;
-
-            //        if (Utils::hasIntersection(shadowRay, objList)) {
-            //            visibility = 0;
-            //        }
-            //        else {
-            //            visibility = 1;
-            //        }
-
-
-            //        Vector3D l_dir = lsList.front()->getIntensity();
-            //        color += (l_dir * brdf * G * visibility) / pdf;
-
-
-            //    color = color / N;
-
         }
-
-
-
-        //color += its.shape->getMaterial().getDiffuseReflectance() * 0.2;
     }
     return color;
 }

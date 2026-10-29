@@ -160,6 +160,8 @@ void raytrace(Camera* &cam, Shader* &shader, Film* &film,
 
     // Main raytracing loop
     // Out-most loop invariant: we have rendered lin lines
+
+	int spp = 256; //samples per pixel
     for(size_t lin=0; lin<resY; lin++)
     {
         // Show progression 
@@ -175,9 +177,15 @@ void raytrace(Camera* &cam, Shader* &shader, Film* &film,
             // Generate the camera ray
             Ray cameraRay = cam->generateRay(x, y);
             Vector3D pixelColor = Vector3D(0.0);
-
-            // Compute ray color according to the used shader
-            pixelColor += shader->computeColor(cameraRay, *objectsList, *lightSourceList);
+            int i = spp;
+            while (i > 0) {
+                // Generate the camera ray
+                Ray cameraRay = cam->generateRay(x, y);
+                // Compute ray color according to the used shader
+                pixelColor += shader->computeColor(cameraRay, *objectsList, *lightSourceList);
+                i--;
+            }
+			pixelColor /= spp;            
 
             // Store the pixel color
             film->setPixelValue(col, lin, pixelColor);
