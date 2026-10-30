@@ -94,9 +94,9 @@ void buildSceneCornellBox(Camera*& cam, Film*& film,
 
     Matrix4x4 sphereTransform2;
     sphereTransform2 = Matrix4x4::translate(Vector3D(-1.5, -offset + 3 * radius, 4));
-    Shape* s2 = new Sphere(radius, sphereTransform2, transmissive);
+	Shape* s2 = new Sphere(radius, sphereTransform2, blueGlossy_80); // transmissive for it to be a glass sphere
 
-    Shape* square = new Square(Vector3D(offset + 0.999, -offset - 0.2, 3.0), Vector3D(0.0, 4.0, 0.0), Vector3D(0.0, 0.0, 2.0), Vector3D(-1.0, 0.0, 0.0), mirror);
+    Shape* square = new Square(Vector3D(offset + 0.999, -offset - 0.2, 3.0), Vector3D(0.0, 4.0, 0.0), Vector3D(0.0, 0.0, 2.0), Vector3D(-1.0, 0.0, 0.0), cyandiffuse); // mirror for it to be a mirror
 
     myScene.AddObject(s1);
     myScene.AddObject(s2);
@@ -242,8 +242,8 @@ int main()
     //Shader* whittedshader = new WhittedShader(intersectionColor, bgColor);
     //Shader* directshader = new DirectShader(intersectionColor, bgColor);
 	//Shader* areashader = new AreaShader(intersectionColor, bgColor);
-    Shader* pptshader = new PptShader(intersectionColor, bgColor);
-    //Shader* neeshader = new NeeShader(intersectionColor, bgColor);
+    //Shader* pptshader = new PptShader(intersectionColor, bgColor);
+    Shader* neeshader = new NeeShader(intersectionColor, bgColor);
     //(... normal, whitted) ...
 
   
@@ -270,8 +270,8 @@ int main()
     //raytrace(cam, whittedshader, film, myScene.objectsList, myScene.LightSourceList);
     //raytrace(cam, directshader, film, myScene.objectsList, myScene.LightSourceList);
 	//raytrace(cam, areashader, film, myScene.objectsList, myScene.LightSourceList);
-    raytrace(cam, pptshader, film, myScene.objectsList, myScene.LightSourceList);
-    //raytrace(cam, neeshader, film, myScene.objectsList, myScene.LightSourceList);
+    //raytrace(cam, pptshader, film, myScene.objectsList, myScene.LightSourceList);
+    raytrace(cam, neeshader, film, myScene.objectsList, myScene.LightSourceList);
     auto stop = high_resolution_clock::now();
 
     

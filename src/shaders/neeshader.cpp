@@ -56,7 +56,7 @@ Vector3D NeeShader::computeColor(const Ray& r, const std::vector<Shape*>& objLis
             }
         }
 
-        else if (its.shape->getMaterial().isEmissive()) {
+        else if (its.shape->getMaterial().isEmissive() and r.depth == 0) {
             color = its.shape->getMaterial().getEmissiveRadiance();
         }
 
