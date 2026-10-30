@@ -15,9 +15,9 @@ PptShader::PptShader(Vector3D hitColor_, Vector3D bgColor_) :
 
 Vector3D PptShader::computeColor(const Ray& r, const std::vector<Shape*>& objList, const std::vector<LightSource*>& lsList) const
 {
-    int maxDepth = 4;
+    int maxDepth = 4; // random
     if (r.depth >= maxDepth) {
-        return bgColor;
+        return bgColor; // to change, we must return a color shooting a new ray
     }
     Vector3D L;
     Intersection its;

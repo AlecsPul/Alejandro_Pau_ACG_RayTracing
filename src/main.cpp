@@ -22,6 +22,7 @@
 #include "shaders/directshader.h"
 #include "shaders/areashader.h"
 #include "shaders/pptshader.h"
+#include "shaders/neeshader.h"
 
 #include "materials/phong.h"
 #include "materials/emissive.h"
@@ -185,7 +186,7 @@ void raytrace(Camera* &cam, Shader* &shader, Film* &film,
                 pixelColor += shader->computeColor(cameraRay, *objectsList, *lightSourceList);
                 i--;
             }
-			pixelColor /= spp;            
+			pixelColor /= spp;
 
             // Store the pixel color
             film->setPixelValue(col, lin, pixelColor);
@@ -242,6 +243,7 @@ int main()
     //Shader* directshader = new DirectShader(intersectionColor, bgColor);
 	//Shader* areashader = new AreaShader(intersectionColor, bgColor);
     Shader* pptshader = new PptShader(intersectionColor, bgColor);
+    //Shader* neeshader = new NeeShader(intersectionColor, bgColor);
     //(... normal, whitted) ...
 
   
@@ -269,6 +271,7 @@ int main()
     //raytrace(cam, directshader, film, myScene.objectsList, myScene.LightSourceList);
 	//raytrace(cam, areashader, film, myScene.objectsList, myScene.LightSourceList);
     raytrace(cam, pptshader, film, myScene.objectsList, myScene.LightSourceList);
+    //raytrace(cam, neeshader, film, myScene.objectsList, myScene.LightSourceList);
     auto stop = high_resolution_clock::now();
 
     
