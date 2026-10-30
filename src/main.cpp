@@ -162,7 +162,7 @@ void raytrace(Camera* &cam, Shader* &shader, Film* &film,
     // Main raytracing loop
     // Out-most loop invariant: we have rendered lin lines
 
-	int spp = 4096; //samples per pixel
+	int spp = 256; //samples per pixel
     for(size_t lin=0; lin<resY; lin++)
     {
         // Show progression 
@@ -240,10 +240,10 @@ int main()
     //Shader *depthshader = new DepthShader (intersectionColor,7.5f, bgColor); //TASK 4.3 shader
     //Shader* normalshader = new NormalShader(intersectionColor, bgColor); // TASK 4.4 shader
     //Shader* whittedshader = new WhittedShader(intersectionColor, bgColor);
-    //Shader* directshader = new DirectShader(intersectionColor, bgColor);
+    Shader* directshader = new DirectShader(intersectionColor, bgColor);
 	//Shader* areashader = new AreaShader(intersectionColor, bgColor);
     //Shader* pptshader = new PptShader(intersectionColor, bgColor);
-    Shader* neeshader = new NeeShader(intersectionColor, bgColor);
+    //Shader* neeshader = new NeeShader(intersectionColor, bgColor);
     //(... normal, whitted) ...
 
   
@@ -268,10 +268,10 @@ int main()
     //raytrace(cam, depthshader, film, myScene.objectsList, myScene.LightSourceList); //TASK 4.3
     //raytrace(cam, normalshader, film, myScene.objectsList, myScene.LightSourceList); //TASK 4.4
     //raytrace(cam, whittedshader, film, myScene.objectsList, myScene.LightSourceList);
-    //raytrace(cam, directshader, film, myScene.objectsList, myScene.LightSourceList);
+    raytrace(cam, directshader, film, myScene.objectsList, myScene.LightSourceList);
 	//raytrace(cam, areashader, film, myScene.objectsList, myScene.LightSourceList);
     //raytrace(cam, pptshader, film, myScene.objectsList, myScene.LightSourceList);
-    raytrace(cam, neeshader, film, myScene.objectsList, myScene.LightSourceList);
+    //raytrace(cam, neeshader, film, myScene.objectsList, myScene.LightSourceList);
     auto stop = high_resolution_clock::now();
 
     

@@ -57,31 +57,24 @@ Vector3D DirectShader::computeColor(const Ray& r, const std::vector<Shape*>& obj
         }
 
         else if (its.shape->getMaterial().hasDiffuseOrGlossy()) {
-            int N = 256;                    
             HemisphericalSampler sampler;
 					
 			double pdf = 1.0 / (2 * 3.14159);
 
-            for (int i = 0; i < N; i++) {
-                Vector3D wj = sampler.getSample(its.normal);
-                Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, wo, wj);
+            Vector3D wj = sampler.getSample(its.normal);
+            Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, wo, wj);
                         
-				Ray newRay = Ray(its.itsPoint, wj);
+			Ray newRay = Ray(its.itsPoint, wj);
                         
-                Intersection y;
-                Utils::getClosestIntersection(newRay, objList, y);
+            Intersection y;
+            Utils::getClosestIntersection(newRay, objList, y);
                         
-                if (y.shape->getMaterial().isEmissive()) {
-                    Vector3D l_dir = y.shape->getMaterial().getEmissiveRadiance();
-                    color += (l_dir * brdf * dot(wj, its.normal)) / pdf;
-                }       
+            if (y.shape->getMaterial().isEmissive()) {
+                Vector3D l_dir = y.shape->getMaterial().getEmissiveRadiance();
+                color += (l_dir * brdf * dot(wj, its.normal)) / pdf;
             }
-            color = color / N;
                 
         }
-
-		
-        
         color += its.shape->getMaterial().getDiffuseReflectance() * (0.3, 0.3, 0.3);
     }
     return color;
