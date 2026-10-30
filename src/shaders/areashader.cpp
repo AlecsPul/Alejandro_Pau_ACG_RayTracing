@@ -56,52 +56,37 @@ Vector3D AreaShader::computeColor(const Ray& r, const std::vector<Shape*>& objLi
             color = its.shape->getMaterial().getEmissiveRadiance();
         }
 
-        else if (its.shape->getMaterial().hasDiffuseOrGlossy()) {
-            int N = 256;
-            
-			
-			 // change to 1/area
+        else if (its.shape->getMaterial().hasDiffuseOrGlossy()) {            
             double pdf = 1.0 / lsList.front()->getArea(); //since we will only have one light, we can leave it like this
-
-            for (int i = 0; i < N; i++) {
                 
-                Vector3D y = lsList.front()->sampleLightPosition();
-                Vector3D wi = y - its.itsPoint;
-                Vector3D wi_normalized = wi.normalized();
+            Vector3D y = lsList.front()->sampleLightPosition();
+            Vector3D wi = y - its.itsPoint;
+            Vector3D wi_normalized = wi.normalized();
 
-                Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, wo, wi_normalized);
-                
+            Vector3D brdf = its.shape->getMaterial().getReflectance(its.normal, wo, wi_normalized);                
 				
-				float mod_wi = wi.length();
-                float G = (fmax(0, dot(its.normal, wi_normalized)) * fmax(0, dot(lsList.front()->getNormal(), -wi_normalized))) / (mod_wi*mod_wi);
+			float mod_wi = wi.length();
+            float G = (fmax(0, dot(its.normal, wi_normalized)) * fmax(0, dot(lsList.front()->getNormal(), -wi_normalized))) / (mod_wi*mod_wi);
 
-				Ray shadowRay = Ray();
-				shadowRay.o = its.itsPoint;
-				shadowRay.d = wi_normalized;
-				shadowRay.minT = Epsilon;
-				shadowRay.maxT = mod_wi-Epsilon;
+			Ray shadowRay = Ray();
+			shadowRay.o = its.itsPoint;
+			shadowRay.d = wi_normalized;
+			shadowRay.minT = Epsilon;
+			shadowRay.maxT = mod_wi-Epsilon;
 
-
-				int visibility;
+			int visibility;
                 
-                if (Utils::hasIntersection(shadowRay, objList)) {
-                    visibility = 0;
-                }
-                else {
-                    visibility = 1;
-                }
-                        
-                
-                Vector3D l_dir = lsList.front()->getIntensity();
-                color += (l_dir * brdf * G * visibility) / pdf;
-                    
+            if (Utils::hasIntersection(shadowRay, objList)) {
+                visibility = 0;
             }
-            color = color / N;
+            else {
+                visibility = 1;
+            }
+
+            Vector3D l_dir = lsList.front()->getIntensity();
+            color += (l_dir * brdf * G * visibility) / pdf;
                 
         }
-
-		
-        
         color += its.shape->getMaterial().getDiffuseReflectance() * 0.2;
     }
     return color;
