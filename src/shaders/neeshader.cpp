@@ -32,6 +32,7 @@ Vector3D NeeShader::computeColor(const Ray& r, const std::vector<Shape*>& objLis
             //MIRROR
             Vector3D wr = 2 * dot(its.normal, wo) * its.normal - wo;
             Ray reflectionRay = Ray(its.itsPoint, wr, r.depth + 1);
+			reflectionRay.isReflectedRay = true; // Mark the ray as a reflected ray
             color = computeColor(reflectionRay, objList, lsList);
         }
 
@@ -47,22 +48,26 @@ Vector3D NeeShader::computeColor(const Ray& r, const std::vector<Shape*>& objLis
             if (radicand >= 0) { // NO total internal reflection, compute the refracted ray
                 Vector3D wt = -mu_t * wo + normal * (mu_t * dot(normal, wo) - sqrt(radicand));
                 Ray refracRay = Ray(its.itsPoint, wt, r.depth + 1);
+				refracRay.isRefractedRay = true; // Mark the ray as a refracted ray
                 color = computeColor(refracRay, objList, lsList);
             }
             else { // Total internal reflection, color = Specular reflection, acts like a mirror
                 Vector3D wr = 2 * dot(normal, wo) * normal - wo;
                 Ray reflectionRay = Ray(its.itsPoint, wr, r.depth + 1);
+				reflectionRay.isReflectedRay = true; // Mark the ray as a reflected ray
                 color = computeColor(reflectionRay, objList, lsList);
             }
         }
 
-        else if (its.shape->getMaterial().isEmissive() and r.depth == 0) {
+        else if ((its.shape->getMaterial().isEmissive() and r.depth == 0)) {
             color = its.shape->getMaterial().getEmissiveRadiance();
         }
 
         else if (its.shape->getMaterial().hasDiffuseOrGlossy()) {
             double pdf = 1.0 / lsList.front()->getArea(); //since we will only have one light, we can leave it like this  
-            
+			if (r.isReflectedRay || r.isRefractedRay) {
+				color = its.shape->getMaterial().getEmissiveRadiance(); // If the ray is reflected or refracted, return the emissive radiance of the material
+			}
 			// DIRECT RADIANCE
             Vector3D y = lsList.front()->sampleLightPosition();
             Vector3D wi = y - its.itsPoint;
@@ -102,7 +107,9 @@ Vector3D NeeShader::computeColor(const Ray& r, const std::vector<Shape*>& objLis
 
             brdf = its.shape->getMaterial().getReflectance(its.normal, -r.d, wi_normalized);
             if (r.depth < maxDepth) {
-                Ray newRay = Ray(its.itsPoint, wi_normalized, r.depth + 1); //maybe not normalized?                    
+                Ray newRay = Ray(its.itsPoint, wi_normalized, r.depth + 1);
+				newRay.isReflectedRay = false; // Reset the flag for the new ray
+				newRay.isRefractedRay = false; // Reset the flag for the new ray
                 color += computeColor(newRay, objList, lsList) * brdf * dot(its.normal, wi_normalized) / pdf;
             }
         }

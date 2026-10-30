@@ -31,6 +31,8 @@ public:
     size_t depth;        // Ray depth (or number of bounces)
 
     //FILL(..) Extra data for Path Tracing
+	bool isReflectedRay = false; // Flag to indicate if the last bounce was specular
+	bool isRefractedRay = false; // Flag to indicate if the last bounce was specular
 
 };
 

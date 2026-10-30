@@ -94,9 +94,9 @@ void buildSceneCornellBox(Camera*& cam, Film*& film,
 
     Matrix4x4 sphereTransform2;
     sphereTransform2 = Matrix4x4::translate(Vector3D(-1.5, -offset + 3 * radius, 4));
-	Shape* s2 = new Sphere(radius, sphereTransform2, blueGlossy_80); // transmissive for it to be a glass sphere
+	Shape* s2 = new Sphere(radius, sphereTransform2, transmissive); // transmissive for it to be a glass sphere
 
-    Shape* square = new Square(Vector3D(offset + 0.999, -offset - 0.2, 3.0), Vector3D(0.0, 4.0, 0.0), Vector3D(0.0, 0.0, 2.0), Vector3D(-1.0, 0.0, 0.0), cyandiffuse); // mirror for it to be a mirror
+    Shape* square = new Square(Vector3D(offset + 0.999, -offset - 0.2, 3.0), Vector3D(0.0, 4.0, 0.0), Vector3D(0.0, 0.0, 2.0), Vector3D(-1.0, 0.0, 0.0), mirror); // mirror for it to be a mirror
 
     myScene.AddObject(s1);
     myScene.AddObject(s2);
@@ -162,7 +162,7 @@ void raytrace(Camera* &cam, Shader* &shader, Film* &film,
     // Main raytracing loop
     // Out-most loop invariant: we have rendered lin lines
 
-	int spp = 256; //samples per pixel
+	int spp = 4096; //samples per pixel
     for(size_t lin=0; lin<resY; lin++)
     {
         // Show progression 
